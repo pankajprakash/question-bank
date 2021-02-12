@@ -1,0 +1,68 @@
+
+
+
+<htmL>
+    <head>
+
+    <body>
+        <button onclick="render()">Render the Quiz</button>
+        <div id='main'>
+        </div>
+    </body>
+
+    <script defer>
+        const q = [
+            {question: 'What is my name?', options: ['Ashwani', 'Praneet', 'Gaurav', 'Saurav'], answer: 1, answerSelected: null},
+            {question: 'What is my age?', options: [20, 21, 22, 23], answer: 1, answerSelected: null},
+            {question: 'What is my gender?', options: ['Male', 'Female'], answer: 0, answerSelected: null},
+        ]
+
+        function renderAQuestion(index) {
+            const localQuestion = q[index]
+            const container = document.createElement('div');
+            const questionText = document.createElement('div')
+            questionText.innerText = localQuestion.question;
+            container.appendChild(questionText);
+
+            const optionsContainer = document.createElement('div');
+
+            for (let i = 0; i< localQuestion.options.length; i++) {
+                const label = document.createElement('label');
+                label.innerHTML = localQuestion.options[i];
+                const option = document.createElement('input');
+                option.name = index;
+                option.type = 'radio';
+                option.addEventListener('click', function click() {
+                    console.log(index, i)
+                    q[index].answerSelected = i;
+                })
+                optionsContainer.appendChild(label);
+                optionsContainer.appendChild(option);
+            }
+            container.appendChild(optionsContainer);
+
+            return container;
+        }
+
+        function submitQuiz() {
+            for (let i = 0; i < q.length; i++) {
+                console.log(q[i])
+                if (q.answerSelected === q.answer) {
+                    console.log('correct');
+                } else console.log("incorrect");
+            }
+        }
+
+        function render() {
+            const main = document.getElementById('main');
+            for (let i = 0; i < q.length; i++) {
+                const questionTag = renderAQuestion(i);
+                main.appendChild(questionTag);
+            }
+            const button = document.createElement('button');
+            button.innerText = 'Submit';
+            button.addEventListener('click', submitQuiz)
+            main.appendChild(button)
+        }
+    </script>
+</htmL>
